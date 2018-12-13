@@ -143,15 +143,23 @@ done
 echo '[4] Creating Quorum keys and finishing configuration.'
 
 n=1
+nodelistBLANK=
 for ip in ${ips[*]}
 do
     qd=qdata_$n
-
-    cat templates/tm.conf \
+    if [ $n = 1 ]
+    then
+        cat templates/tm.conf \
+        | sed s/_NODEIP_/${ips[$((n-1))]}/g \
+        | sed s%_NODELIST_%$nodelistBLANK%g \
+              > $qd/tm.conf
+    else          
+        cat templates/tm.conf \
         | sed s/_NODEIP_/${ips[$((n-1))]}/g \
         | sed s%_NODELIST_%$nodelist%g \
               > $qd/tm.conf
-
+    fi
+    
     cp genesis.json $qd/genesis.json
     cp static-nodes.json $qd/dd/static-nodes.json
 
