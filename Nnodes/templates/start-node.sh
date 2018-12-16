@@ -10,7 +10,8 @@ set -e
 ### Configuration Options
 TMCONF=/qdata/tm.conf
 
-GETH_ARGS="--datadir /qdata/dd --raft --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum --nodiscover --unlock 0 --password /qdata/passwords.txt"
+#GETH_ARGS="--datadir /qdata/dd --raft --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum --nodiscover --unlock 0 --password /qdata/passwords.txt"
+GETH_ARGS="--datadir /qdata/dd --raft --rpc --rpcaddr 0.0.0.0  --nodiscover --unlock 0 --password /qdata/passwords.txt"
 
 if [ ! -d /qdata/dd/geth/chaindata ]; then
   echo "[*] Mining Genesis block"
@@ -23,4 +24,5 @@ nohup /usr/local/bin/constellation-node $TMCONF 2>> /qdata/logs/constellation.lo
 sleep 2
 
 echo "[*] Starting node"
-PRIVATE_CONFIG=$TMCONF nohup /usr/local/bin/geth $GETH_ARGS 2>>/qdata/logs/geth.log
+#PRIVATE_CONFIG=$TMCONF nohup /usr/local/bin/geth $GETH_ARGS 2>>/qdata/logs/geth.log
+PRIVATE_CONFIG=$TMCONF nohup /usr/local/bin/geth $GETH_ARGS --rpccorsdomain "*" 2>>/qdata/logs/geth.log

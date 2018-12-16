@@ -96,6 +96,7 @@ do
 
     # Generate an Ether account for the node
     touch $qd/passwords.txt
+    echo "test" > $qd/passwords.txt
     account=`docker run -u $uid:$gid -v $pwd/$qd:/qdata $image /usr/local/bin/geth --datadir=/qdata/dd --password /qdata/passwords.txt account new | cut -c 11-50`
 
     # Add the account to the genesis block so it has some Ether at start-up
